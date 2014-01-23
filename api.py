@@ -26,30 +26,7 @@ if __name__ == '__main__':
     main()
 
 
-__all__ = ['BFXAPI', 'Bitfinex']
-
-_ACCT_TYPES = set(['exchange', 'deposit', 'trading'])
-
-
-# class BFXLoanAPI(object):
-#
-#     def __init__(self, secret=None, key=None):
-#         pass
-#
-#     def lending_balances(self):
-#         """Returns info on borrowed/lent assets as well as free assets"""
-#
-#     def lending_orderbook(self):
-#         """Returns order book"""
-#
-#     def place_loan_ask(self, amount, rate, currency):
-#         """Put in order to lend"""
-#
-#     def place_loan_bid(self, amount, rate, currency):
-#         """Put in order to borrow"""
-#
-#     def cancel_loan_order(self):
-#         """Will need to pass some sort of identifier"""
+__all__ = ['Bitfinex']
 
 
 class Bitfinex(object):
@@ -67,6 +44,8 @@ class Bitfinex(object):
         raise ValueError('Invalid component used in constructing Bitfinex API URL: protocol=' + _API_PROTOCOL +
                          ', version=' + _API_VERSION)
     API_URL = _API_PROTOCOL + '://' + _API_DOMAIN + '/' + _API_VERSION + '/'
+
+    _ACCT_TYPES = set(['exchange', 'deposit', 'trading'])
 
     # todo verify vs these sets, set _PAIRS using Bitfinex.symbols() and also rename that to pairs()
 
@@ -343,7 +322,6 @@ class Bitfinex(object):
         payload["nonce"] = str(time.time() * 100000)
         return self._send_request('balances', payload=payload)
 
-    # Private
     def _sign(self, should_sign, d):
         j = json.dumps(undecimalize(d))
         data = base64.standard_b64encode(j.encode('utf-8'))
